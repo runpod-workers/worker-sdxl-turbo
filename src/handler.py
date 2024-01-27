@@ -10,8 +10,11 @@ import time
 # If your handler runs inference on a model, load the model here.
 # You will want models to be loaded into memory before starting serverless.
 
-pipe = AutoPipelineForText2Image.from_pretrained("stabilityai/sdxl-turbo", torch_dtype=torch.float16, variant="fp16")
-pipe.to("cuda")
+try:
+    pipe = AutoPipelineForText2Image.from_pretrained("stabilityai/sdxl-turbo", torch_dtype=torch.float16, variant="fp16")
+    pipe.to("cuda")
+except RuntimeError:
+    quit()
 
 def handler(job):
     """ Handler function that will be used to process jobs. """
