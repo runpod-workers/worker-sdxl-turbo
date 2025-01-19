@@ -26,6 +26,8 @@ RUN python3.11 -m pip install --upgrade pip && \
 # Add src files (Worker Template)
 ADD src .
 
-RUN python3.11 /handler.py
+#RUN python3.11 /handler.py
+
+RUN python3.11 /install_models.py
 
 CMD python3.11 -u /handler.py
