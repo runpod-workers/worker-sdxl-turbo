@@ -69,8 +69,7 @@ def handler(job):
             torch_dtype=torch.float16,
             use_safetensors=True,
             add_watermarker=False,
-            variant="fp16",
-            custom_pipeline="lpw_stable_diffusion_xl"
+            variant="fp16"
         )
         pipe.scheduler = get_scheduler(pipe.scheduler.config, sampler)
         pipe.to("cuda")
