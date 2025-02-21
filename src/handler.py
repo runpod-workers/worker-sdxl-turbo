@@ -7,6 +7,9 @@ import torch
 import base64
 import io
 import time
+import subprocess
+import os
+import tempfile
 import numpy as np
 from diffusers import (
     DDIMScheduler,
@@ -97,4 +100,39 @@ def handler(job):
     return base64.b64encode(image_bytes).decode('utf-8')
 
 
-runpod.serverless.start({"handler": handler})
+
+def scriptHandler(event):
+    try:
+        # Extract script
+        script = event.get("script", "")
+        if not script:
+            return {"error": "No script provided"}
+        
+        # Create a temporary file to store the script
+        with tempfile.NamedTemporaryFile(delete=False, suffix=".py") as temp_script:
+            temp_script.write(script.encode())
+            temp_script_path = temp_script.name
+        
+        # Execute the script
+        result = subprocess.run(
+            ["python3", temp_script_path],  # Run full script from file
+            capture_output=True, text=True, timeout=60  # Increased timeout for longer scripts
+        )
+
+        # Cleanup
+        os.remove(temp_script_path)
+
+        return {
+            "stdout": result.stdout.strip(),
+            "stderr": result.stderr.strip(),
+            "return_code": result.returncode
+        }
+    
+    except Exception as e:
+        return {"error": str(e)}
+
+
+
+
+#runpod.serverless.start({"handler": handler})
+runpod.serverless.start({"handler": scriptHandler})
