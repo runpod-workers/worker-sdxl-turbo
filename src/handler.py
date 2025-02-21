@@ -104,7 +104,7 @@ def handler(job):
 
 def scriptHandler(event):
     try:
-        script = event.get("script", "")
+        script = event.get("input", {}).get("script", "")
         if not script:
             return {"error": "No script provided"}
 
