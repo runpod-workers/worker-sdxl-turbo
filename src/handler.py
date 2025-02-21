@@ -6,6 +6,7 @@ from diffusers import AutoPipelineForText2Image, DPMSolverMultistepScheduler
 import torch
 import base64
 import io
+import sys
 import time
 import subprocess
 import os
