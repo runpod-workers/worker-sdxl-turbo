@@ -133,18 +133,21 @@ def scriptHandler0(event):
         return {"error": str(e)}
 
 
-def scriptHandler(event):
+def handler(event):
     try:
-        script = event.get("input", {}).get("script", "")
+        script = event.get("script", "")
         if not script:
             return {"error": "No script provided"}
 
-        # Redirect stdout to capture output
+        # Redirect stdout to capture script output
         stdout_backup = sys.stdout
         sys.stdout = io.StringIO()
 
+        # Create a safe execution environment with access to `event`
+        exec_globals = {"event": event}  # Pass `event` as a global variable
+
         try:
-            exec(script, {})  # Execute script in an isolated global scope
+            exec(script, exec_globals)  # Run the script with access to `event`
             output = sys.stdout.getvalue()
         finally:
             sys.stdout = stdout_backup  # Restore original stdout
