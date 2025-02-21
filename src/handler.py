@@ -101,7 +101,7 @@ def handler(job):
 
 
 
-def scriptHandler(event):
+def scriptHandler0(event):
     try:
         # Extract script
         script = event.get("input", {}).get("script", "")
@@ -131,6 +131,27 @@ def scriptHandler(event):
     except Exception as e:
         return {"error": str(e)}
 
+
+def scriptHandler(event):
+    try:
+        script = event.get("input", {}).get("script", "")
+        if not script:
+            return {"error": "No script provided"}
+
+        # Redirect stdout to capture output
+        stdout_backup = sys.stdout
+        sys.stdout = io.StringIO()
+
+        try:
+            exec(script, {})  # Execute script in an isolated global scope
+            output = sys.stdout.getvalue()
+        finally:
+            sys.stdout = stdout_backup  # Restore original stdout
+
+        return {"stdout": output, "stderr": "", "return_code": 0}
+
+    except Exception as e:
+        return {"error": str(e)}
 
 
 
