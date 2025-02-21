@@ -102,33 +102,33 @@ def handler(job):
 
 
 
-def scriptHandler0(event):
+def scriptHandler(event):
     try:
-        # Extract script
-        script = event.get("input", {}).get("script", "")
+        script = event.get("script", "")
         if not script:
             return {"error": "No script provided"}
-        
-        # Create a temporary file to store the script
-        with tempfile.NamedTemporaryFile(delete=False, suffix=".py") as temp_script:
-            temp_script.write(script.encode())
-            temp_script_path = temp_script.name
-        
-        # Execute the script
-        result = subprocess.run(
-            ["python3", temp_script_path],  # Run full script from file
-            capture_output=True, text=True, timeout=60  # Increased timeout for longer scripts
-        )
 
-        # Cleanup
-        os.remove(temp_script_path)
+        # Redirect stdout to capture print output
+        stdout_backup = sys.stdout
+        sys.stdout = io.StringIO()
+
+        # Create a shared dictionary to capture JSON output
+        exec_globals = {"event": event, "output": {}}
+
+        try:
+            exec(script, exec_globals)  # Execute script with access to `event` and `output`
+            output_json = exec_globals["output"]  # Extract JSON output
+            output_text = sys.stdout.getvalue()  # Extract printed output
+        finally:
+            sys.stdout = stdout_backup  # Restore original stdout
 
         return {
-            "stdout": result.stdout.strip(),
-            "stderr": result.stderr.strip(),
-            "return_code": result.returncode
+            "stdout": output_text.strip(),
+            "output": output_json,  # JSON output from script
+            "stderr": "",
+            "return_code": 0
         }
-    
+
     except Exception as e:
         return {"error": str(e)}
 
