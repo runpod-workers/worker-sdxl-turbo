@@ -1,6 +1,6 @@
 # Base image -> https://github.com/runpod/containers/blob/main/official-templates/base/Dockerfile
 # DockerHub -> https://hub.docker.com/r/runpod/base/tags
-FROM runpod/base:0.4.0-cuda11.8.0
+FROM runpod/base:0.6.2-cuda12.4.1
 
 # The base image comes with many system dependencies pre-installed to help you get started quickly.
 # Please refer to the base image's Dockerfile for more information before adding additional dependencies.
