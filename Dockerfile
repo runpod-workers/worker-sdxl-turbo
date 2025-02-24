@@ -28,7 +28,9 @@ ADD src .
 
 #RUN python3.11 /handler.py
 
-RUN wget https://huggingface.co/SG161222/RealVisXL_V5.0/resolve/main/RealVisXL_V5.0_fp16.safetensors -O /RealVisXL_V5.0_fp16.safetensors
+RUN mkdir /models
+RUN wget https://huggingface.co/SG161222/RealVisXL_V5.0/resolve/main/RealVisXL_V5.0_fp16.safetensors -O /models/RealVisXL_V5.0_fp16.safetensors
+RUN wget https://huggingface.co/SG161222/RealVisXL_V4.0/resolve/main/RealVisXL_V4.0.safetensors -O /models/RealVisXL_V4.0_fp16.safetensors
 
 RUN python3.11 /install_models.py
 
