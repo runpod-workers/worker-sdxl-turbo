@@ -11,3 +11,6 @@ transformers
 accelerate
 hf_transfer
 cryptography
+sentencepiece
+tokenizers
+protobuf>=3.20,<4.0
