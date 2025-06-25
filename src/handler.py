@@ -2,6 +2,8 @@
 
 import runpod
 from diffusers import AutoPipelineForText2Image
+from diffusers import DiffusionPipeline
+
 import torch
 import base64
 import io
@@ -11,8 +13,10 @@ import time
 # You will want models to be loaded into memory before starting serverless.
 #enhanceaiteam/Flux-uncensored
 try:
-    pipe = AutoPipelineForText2Image.from_pretrained("enhanceaiteam/Flux-uncensored", torch_dtype=torch.float16, variant="fp16")
-    pipe.to("cuda")
+    # pipe = AutoPipelineForText2Image.from_pretrained("enhanceaiteam/Flux-uncensored", torch_dtype=torch.float16, variant="fp16")
+    # pipe.to("cuda")
+    pipe = DiffusionPipeline.from_pretrained("black-forest-labs/FLUX.1-dev")
+    pipe.load_lora_weights("enhanceaiteam/Flux-uncensored")
 except RuntimeError:
     quit()
 
