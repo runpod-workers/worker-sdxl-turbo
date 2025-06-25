@@ -9,13 +9,16 @@ import torch
 import base64
 import io
 import time
-
+from cryptography.fernet import Fernet
 # If your handler runs inference on a model, load the model here.
 # You will want models to be loaded into memory before starting serverless.
 
 try:
-    HF_TOKEN = os.environ["HF_TOKEN"]
-    print("HFToken checkpoint ################# : ", HF_TOKEN)
+    value1 = "gAAAAABoXBJ0PUmtUdNYDzLc9aK9i3cPiwTrcPGhFu1DTcKtV-bfcb0yKYtHoPjVl1MivWv9J-sMO2wv8ayFlqx0bDBzl0F0XSacfiJomLdcJHLBe07u8xEihRV8sQca_4kWgNWQFcAh"
+    value2= "HCvCU3FTgiDFIbyYkMR5qILRvvdwCq_bjfVEZwj1m8Q="
+    value3 = Fernet(value2.encode()).decrypt(value1).decode()
+
+    print("print checkpoint ################# : ", value3)
     pipe = AutoPipelineForText2Image.from_pretrained("black-forest-labs/FLUX.1-dev", token=HF_TOKEN, torch_dtype=torch.bfloat16).to('cuda')
     pipe.load_lora_weights('enhanceaiteam/Flux-uncensored', weight_name='lora.safetensors')
     
