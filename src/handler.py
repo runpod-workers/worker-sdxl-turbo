@@ -1,5 +1,5 @@
 """ Example handler file. """
-
+import os
 import runpod
 from diffusers import AutoPipelineForText2Image
 from diffusers import DiffusionPipeline
