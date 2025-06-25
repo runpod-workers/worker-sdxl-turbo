@@ -9,9 +9,9 @@ import time
 
 # If your handler runs inference on a model, load the model here.
 # You will want models to be loaded into memory before starting serverless.
-
+#enhanceaiteam/Flux-uncensored
 try:
-    pipe = AutoPipelineForText2Image.from_pretrained("stabilityai/sdxl-turbo", torch_dtype=torch.float16, variant="fp16")
+    pipe = AutoPipelineForText2Image.from_pretrained("enhanceaiteam/Flux-uncensored", torch_dtype=torch.float16, variant="fp16")
     pipe.to("cuda")
 except RuntimeError:
     quit()
@@ -22,7 +22,7 @@ def handler(job):
     prompt = job_input['prompt']
 
     time_start = time.time()
-    image = pipe(prompt=prompt, num_inference_steps=1, guidance_scale=0.0).images[0]
+    image = pipe(prompt=prompt, num_inference_steps=1, guidance_scale=4).images[0]
     print(f"Time taken: {time.time() - time_start}")
 
     buffer = io.BytesIO()
