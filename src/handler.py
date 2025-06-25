@@ -15,8 +15,9 @@ import time
 try:
     # pipe = AutoPipelineForText2Image.from_pretrained("enhanceaiteam/Flux-uncensored", torch_dtype=torch.float16, variant="fp16")
     # pipe.to("cuda")
-    pipe = DiffusionPipeline.from_pretrained("black-forest-labs/FLUX.1-dev")
+    pipe = DiffusionPipeline.from_pretrained("black-forest-labs/FLUX.1-dev", token=True)
     pipe.load_lora_weights("enhanceaiteam/Flux-uncensored")
+    pipe.to("cuda")
 except RuntimeError:
     quit()
 
