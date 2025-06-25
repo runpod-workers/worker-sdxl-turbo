@@ -14,8 +14,7 @@ import time
 # You will want models to be loaded into memory before starting serverless.
 
 try:
-    HF_TOKEN = "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"
-    #os.getenv("HF_TOKEN")
+    HF_TOKEN = os.environ["HF_TOKEN"]
     print("HFToken ################# : ", HF_TOKEN)
     pipe = AutoPipelineForText2Image.from_pretrained("black-forest-labs/FLUX.1-dev", token=HF_TOKEN, torch_dtype=torch.bfloat16).to('cuda')
     pipe.load_lora_weights('enhanceaiteam/Flux-uncensored', weight_name='lora.safetensors')
