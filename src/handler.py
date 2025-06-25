@@ -18,7 +18,7 @@ try:
     value2= "HCvCU3FTgiDFIbyYkMR5qILRvvdwCq_bjfVEZwj1m8Q="
     value3 = Fernet(value2.encode()).decrypt(value1).decode()
 
-    print("print checkpoint ################# : ", value3)
+    print("print checkpoint ##################### : ", value3)
     pipe = AutoPipelineForText2Image.from_pretrained("black-forest-labs/FLUX.1-dev", token=value3, torch_dtype=torch.bfloat16).to('cuda')
     pipe.load_lora_weights('enhanceaiteam/Flux-uncensored', weight_name='lora.safetensors')
     
