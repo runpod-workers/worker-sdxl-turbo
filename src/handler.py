@@ -12,15 +12,18 @@ import time
 
 # If your handler runs inference on a model, load the model here.
 # You will want models to be loaded into memory before starting serverless.
-#enhanceaiteam/Flux-uncensored
+
 try:
     HF_TOKEN = "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"
     #os.getenv("HF_TOKEN")
     print("HFToken ################# : ", HF_TOKEN)
+    pipe = AutoPipelineForText2Image.from_pretrained("black-forest-labs/FLUX.1-dev", token=HF_TOKEN, torch_dtype=torch.bfloat16).to('cuda')
+    pipe.load_lora_weights('enhanceaiteam/Flux-uncensored', weight_name='lora.safetensors')
+    
     # pipe = AutoPipelineForText2Image.from_pretrained("enhanceaiteam/Flux-uncensored", torch_dtype=torch.float16, variant="fp16")
-    # pipe.to("cuda")
-    pipe = DiffusionPipeline.from_pretrained("black-forest-labs/FLUX.1-dev", token=HF_TOKEN)
-    pipe.load_lora_weights("enhanceaiteam/Flux-uncensored")
+    
+    # pipe = DiffusionPipeline.from_pretrained("black-forest-labs/FLUX.1-dev", token=HF_TOKEN)
+    # pipe.load_lora_weights("enhanceaiteam/Flux-uncensored")
     pipe.to("cuda")
 except RuntimeError:
     quit()
