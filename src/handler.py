@@ -20,7 +20,7 @@ try:
 
     print("print checkpoint ##################### : ", value3)
     pipe = AutoPipelineForText2Image.from_pretrained("black-forest-labs/FLUX.1-dev", token=value3, torch_dtype=torch.bfloat16).to('cuda')
-    pipe.load_lora_weights('enhanceaiteam/Flux-uncensored', weight_name='lora.safetensors')
+    pipe.load_lora_weights('enhanceaiteam/Flux-uncensored', weight_name='lora.safetensors', token=value3)
     
     # pipe = AutoPipelineForText2Image.from_pretrained("enhanceaiteam/Flux-uncensored", torch_dtype=torch.float16, variant="fp16")
     
