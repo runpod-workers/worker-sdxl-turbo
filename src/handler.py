@@ -14,7 +14,7 @@ import time
 # You will want models to be loaded into memory before starting serverless.
 #enhanceaiteam/Flux-uncensored
 try:
-    HF_TOKEN = "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"
+    HF_TOKEN = "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"
     #os.getenv("HF_TOKEN")
     print("HFToken ################# : ", HF_TOKEN)
     # pipe = AutoPipelineForText2Image.from_pretrained("enhanceaiteam/Flux-uncensored", torch_dtype=torch.float16, variant="fp16")
