@@ -27,16 +27,30 @@ try:
     # pipe = DiffusionPipeline.from_pretrained("black-forest-labs/FLUX.1-dev", token=HF_TOKEN)
     # pipe.load_lora_weights("enhanceaiteam/Flux-uncensored")
     pipe.to("cuda")
+    
 except RuntimeError:
     quit()
 
 def handler(job):
     """ Handler function that will be used to process jobs. """
+    try :
+        default_inference_step = int(os.getenv("inference_step", "30"))
+        default_guidance = float(os.getenv("guidance", "7"))
+        default_width    = int(os.getenv("default_width",  "384"))
+        default_height   = int(os.getenv("default_height", "576"))
+    except :
+        print('Set to default steps and guidance')
+    
     job_input = job['input']
     prompt = job_input['prompt']
-
+    
+    inference_step = int(job_input.get("num_inference_steps", default_inference_step))
+    guidance = float(job_input.get("guidance_scale", default_guidance))
+    width    = int(job_input.get("width",  default_width))
+    height   = int(job_input.get("height", default_height))
     time_start = time.time()
-    image = pipe(prompt=prompt, num_inference_steps=30, guidance_scale=7).images[0]
+    print(f"inference_step = {inference_step}  | guidance = {guidance} | pixel width*height = {width}×{height}")
+    image = pipe(prompt=prompt, num_inference_steps=inference_step, guidance_scale=guidance, width = width, height= height).images[0]
     print(f"Time taken: {time.time() - time_start}")
 
     buffer = io.BytesIO()
