@@ -101,8 +101,11 @@ python handler.py --test_input='{"prompt": "a cat wearing a hat"}'
 # Build for AMD64
 docker build --platform linux/amd64 -t sdxl-turbo-worker .
 
-# Run locally
+# Run locally with Docker
 docker run --gpus all -p 8000:8000 sdxl-turbo-worker
+
+# Or run with Docker Compose
+docker-compose up
 ```
 
 ## Deployment
