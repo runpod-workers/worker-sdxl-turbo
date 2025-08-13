@@ -8,13 +8,13 @@ INPUT_SCHEMA = {
         "type": int,
         "required": False,
         "default": 512,
-        "constraints": lambda height: 64 <= height <= 1024 and height % 8 == 0,
+        "constraints": lambda height: height == 512,
     },
     "width": {
         "type": int,
         "required": False,
         "default": 512,
-        "constraints": lambda width: 64 <= width <= 1024 and width % 8 == 0,
+        "constraints": lambda width: width == 512,
     },
     "seed": {"type": int, "required": False, "default": None},
     "num_inference_steps": {

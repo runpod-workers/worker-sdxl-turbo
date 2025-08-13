@@ -18,8 +18,8 @@
       "name": "multi_step_test",
       "input": {
         "prompt": "a beautiful landscape with mountains and lake, photorealistic",
-        "height": 1024,
-        "width": 1024,
+        "height": 512,
+        "width": 512,
         "num_inference_steps": 4,
         "guidance_scale": 0.0,
         "seed": 42
