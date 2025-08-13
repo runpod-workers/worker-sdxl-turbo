@@ -1,8 +1,8 @@
-![SDXL Turbo Worker Banner](https://cpjrphpz3t5wbwfe.public.blob.vercel-storage.com/worker-sdxl-turbo_banner-placeholder.jpeg)
+![SDXL Turbo Worker Banner](https://cpjrphpz3t5wbwfe.public.blob.vercel-storage.com/worker-sdxl-turbo_banner.jpeg)
 
 ---
 
-Run [Stable Diffusion XL Turbo](https://huggingface.co/stabilityai/sdxl-turbo) as a serverless endpoint for ultra-fast image generation.
+Run sdxl-turbo ([Stable Diffusion XL Turbo](https://huggingface.co/stabilityai/sdxl-turbo)) as a serverless endpoint for ultra-fast image generation.
 
 ---
 
