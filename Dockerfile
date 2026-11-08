@@ -20,8 +20,9 @@ RUN pip install uv
 ENV PATH="/.venv/bin:${PATH}"
 RUN uv venv --python 3.11 /.venv
 
-# install dependencies
-RUN uv pip install torch --extra-index-url https://download.pytorch.org/whl/cu121 diffusers transformers accelerate safetensors xformers==0.0.23 runpod numpy==1.26.3 scipy triton huggingface-hub hf_transfer setuptools Pillow
+# install dependencies (pip too: the venv has none, and tools such as the
+# Flash runtime used by CI run `python3 -m pip`)
+RUN uv pip install pip torch --extra-index-url https://download.pytorch.org/whl/cu121 diffusers transformers accelerate safetensors xformers==0.0.23 runpod numpy==1.26.3 scipy triton huggingface-hub hf_transfer setuptools Pillow
 
 # copy files
 COPY download_weights.py schemas.py handler.py test_input.json /
