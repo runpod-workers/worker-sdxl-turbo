@@ -37,7 +37,7 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           push: true
-          tags: ${{ vars.DOCKERHUB_REPO }}/${{ vars.DOCKERHUB_IMG }}:${{ (github.event_name == 'release' && github.event.release.tag_name) || (github.event_name == 'workflow_dispatch' && github.event.inputs.image_tag) || 'dev' }}
+          tags: ${{ vars.DOCKERHUB_REPO }}/${{ vars.DOCKERHUB_IMG || 'worker-sdxl-turbo' }}:${{ (github.event_name == 'release' && github.event.release.tag_name) || (github.event_name == 'workflow_dispatch' && github.event.inputs.image_tag) || 'dev' }}
 
   dev-test:
     needs: docker-build
@@ -52,8 +52,8 @@ jobs:
       # @main after it merges.
       - name: Run Tests
         if: github.event_name != 'release'
-        uses: runpod-workers/worker-github_runner/test-image@0f06aab66170ecd93ebf2074398d174e164854ed
+        uses: runpod-workers/worker-github_runner/test-image@4976704200e1fa87092140f780fae9f23edd632a
         with:
-          image: ${{ vars.DOCKERHUB_REPO }}/${{ vars.DOCKERHUB_IMG }}:${{ (github.event_name == 'workflow_dispatch' && github.event.inputs.image_tag) || 'dev' }}
+          image: ${{ vars.DOCKERHUB_REPO }}/${{ vars.DOCKERHUB_IMG || 'worker-sdxl-turbo' }}:${{ (github.event_name == 'workflow_dispatch' && github.event.inputs.image_tag) || 'dev' }}
           runpod-api-key: ${{ secrets.RUNPOD_API_KEY }}
           handler: /handler.py

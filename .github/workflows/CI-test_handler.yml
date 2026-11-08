@@ -32,7 +32,10 @@ jobs:
         env:
           PR_NUMBER: ${{ github.event.pull_request.number }}
           REF_NAME: ${{ github.ref_name }}
-          IMAGE_REPO: ${{ vars.DOCKERHUB_REPO }}/${{ vars.DOCKERHUB_IMG }}
+          # This repo has no DOCKERHUB_IMG variable; fall back to the image name
+          # used in docker-compose.yml. The Docker Hub repository must be public
+          # so the test endpoint can pull from it.
+          IMAGE_REPO: ${{ vars.DOCKERHUB_REPO }}/${{ vars.DOCKERHUB_IMG || 'worker-sdxl-turbo' }}
         run: |
           # One tag per PR or branch, overwritten on every push, so CI
           # images don't pile up in Docker Hub.
@@ -61,7 +64,7 @@ jobs:
       # stays resolvable after that PR merges and its branch is deleted.
       # Move to @main after it merges.
       - name: Run .runpod/tests.json on a temporary endpoint
-        uses: runpod-workers/worker-github_runner/test-image@0f06aab66170ecd93ebf2074398d174e164854ed
+        uses: runpod-workers/worker-github_runner/test-image@4976704200e1fa87092140f780fae9f23edd632a
         with:
           image: ${{ steps.tag.outputs.image }}
           runpod-api-key: ${{ secrets.RUNPOD_API_KEY }}
