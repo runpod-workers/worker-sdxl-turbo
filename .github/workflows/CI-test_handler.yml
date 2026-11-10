@@ -67,11 +67,8 @@ jobs:
           push: true
           tags: ${{ steps.tag.outputs.image }}
 
-      # Pinned to the head of runpod-workers/worker-github_runner#13, which
-      # stays resolvable after that PR merges and its branch is deleted.
-      # Move to @main after it merges.
       - name: Run .runpod/tests.json on a temporary endpoint
-        uses: runpod-workers/worker-github_runner/test-image@4976704200e1fa87092140f780fae9f23edd632a
+        uses: runpod-workers/worker-github_runner/test-image@main
         with:
           # The digest pins the exact image built in this run; the tag is shared and mutable.
           image: ${{ steps.tag.outputs.image }}@${{ steps.build.outputs.digest }}

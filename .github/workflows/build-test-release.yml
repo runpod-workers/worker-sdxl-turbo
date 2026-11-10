@@ -48,11 +48,9 @@ jobs:
       - uses: actions/checkout@v4
 
       # Tests: .runpod/tests.json on a temporary endpoint.
-      # Pinned to the head of runpod-workers/worker-github_runner#13; move to
-      # @main after it merges.
       - name: Run Tests
         if: github.event_name != 'release'
-        uses: runpod-workers/worker-github_runner/test-image@4976704200e1fa87092140f780fae9f23edd632a
+        uses: runpod-workers/worker-github_runner/test-image@main
         with:
           image: ${{ vars.DOCKERHUB_REPO }}/${{ vars.DOCKERHUB_IMG || 'worker-sdxl-turbo' }}:${{ (github.event_name == 'workflow_dispatch' && github.event.inputs.image_tag) || 'dev' }}
           runpod-api-key: ${{ secrets.RUNPOD_API_KEY }}
