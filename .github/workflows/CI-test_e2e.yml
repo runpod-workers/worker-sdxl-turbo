@@ -41,4 +41,5 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           push: true
-          tags: ${{ vars.DOCKERHUB_REPO }}/${{ vars.DOCKERHUB_IMG }}:${{ env.DOCKER_TAG }}
+          # This repo has no DOCKERHUB_IMG variable; fall back to the image name.
+          tags: ${{ vars.DOCKERHUB_REPO }}/${{ vars.DOCKERHUB_IMG || 'worker-sdxl-turbo' }}:${{ env.DOCKER_TAG }}
