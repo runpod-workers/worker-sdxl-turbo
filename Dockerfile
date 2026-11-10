@@ -22,7 +22,10 @@ RUN uv venv --python 3.11 /.venv
 
 # install dependencies (pip too: the venv has none, and tools such as the
 # Flash runtime used by CI run `python3 -m pip`)
-RUN uv pip install pip torch --extra-index-url https://download.pytorch.org/whl/cu121 diffusers transformers accelerate safetensors xformers==0.0.23 runpod numpy==1.26.3 scipy triton huggingface-hub hf_transfer setuptools Pillow
+# xformers 0.0.23 holds torch at 2.1.x, so the libraries on top are pinned
+# to a set that imports on it (the one worker-sdxl uses). diffusers 0.41+
+# calls torch.accelerator, which torch 2.1 does not have.
+RUN uv pip install pip torch --extra-index-url https://download.pytorch.org/whl/cu121 diffusers==0.33.1 transformers==4.52.4 accelerate==1.7.0 safetensors==0.5.3 xformers==0.0.23 runpod numpy==1.26.3 scipy triton huggingface-hub hf_transfer setuptools Pillow
 
 # copy files
 COPY download_weights.py schemas.py handler.py test_input.json /
