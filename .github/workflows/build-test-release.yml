@@ -37,7 +37,7 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           push: true
-          tags: ${{ vars.DOCKERHUB_REPO }}/${{ vars.DOCKERHUB_IMG }}:${{ (github.event_name == 'release' && github.event.release.tag_name) || (github.event_name == 'workflow_dispatch' && github.event.inputs.image_tag) || 'dev' }}
+          tags: ${{ vars.DOCKERHUB_REPO }}/${{ vars.DOCKERHUB_IMG || 'worker-sdxl-turbo' }}:${{ (github.event_name == 'release' && github.event.release.tag_name) || (github.event_name == 'workflow_dispatch' && github.event.inputs.image_tag) || 'dev' }}
 
   dev-test:
     needs: docker-build
@@ -47,26 +47,11 @@ jobs:
       # Checkout
       - uses: actions/checkout@v4
 
-      # Tests
+      # Tests: .runpod/tests.json on a temporary endpoint.
       - name: Run Tests
         if: github.event_name != 'release'
-        id: run-tests
-        uses: direlines/runpod-test-runner@v1.7
+        uses: runpod-workers/worker-github_runner/test-image@main
         with:
-          image-tag: ${{ vars.DOCKERHUB_REPO }}/${{ vars.DOCKERHUB_IMG }}:${{ (github.event_name == 'release' && github.event.release.tag_name) || (github.event_name == 'workflow_dispatch' && github.event.inputs.image_tag) || 'dev' }}
+          image: ${{ vars.DOCKERHUB_REPO }}/${{ vars.DOCKERHUB_IMG || 'worker-sdxl-turbo' }}:${{ (github.event_name == 'workflow_dispatch' && github.event.inputs.image_tag) || 'dev' }}
           runpod-api-key: ${{ secrets.RUNPOD_API_KEY }}
-          request-timeout: 600
-
-      # Pass/Fail
-      - name: Verify Tests
-        env:
-          TOTAL_TESTS: ${{ steps.run-tests.outputs.total-tests }}
-          SUCCESSFUL_TESTS: ${{ steps.run-tests.outputs.succeeded }}
-          RESULTS: ${{ steps.run-tests.outputs.results }}
-        run: |
-          echo "Total tests: $TOTAL_TESTS"
-          echo "Successful tests: $SUCCESSFUL_TESTS"
-          echo "Full results: $RESULTS"
-          if [ "$TOTAL_TESTS" != "$SUCCESSFUL_TESTS" ]; then
-              exit 1
-          fi
+          handler: /handler.py
