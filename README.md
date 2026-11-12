@@ -6,7 +6,7 @@ Run sdxl-turbo ([Stable Diffusion XL Turbo](https://huggingface.co/stabilityai/s
 
 ---
 
-[![RunPod](https://api.runpod.io/badge/runpod-workers/worker-sdxl-turbo)](https://www.runpod.io/console/hub/runpod-workers/worker-sdxl-turbo)
+[![Runpod](https://api.runpod.io/badge/runpod-workers/worker-sdxl-turbo)](https://www.runpod.io/console/hub/runpod-workers/worker-sdxl-turbo)
 
 ---
 
